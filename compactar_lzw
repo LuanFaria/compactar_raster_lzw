@@ -1,0 +1,39 @@
+import os
+import rasterio
+from rasterio.enums import Compression
+
+def compactar_rasters(input_folder, output_folder):
+    """
+    Compacta arquivos raster de uma pasta usando compressão LZW.
+
+    Parâmetros:
+        input_folder (str): Caminho para a pasta de entrada contendo os rasters.
+        output_folder (str): Caminho para a pasta onde os arquivos compactados serão salvos.
+    """
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)  # Cria a pasta de saída, se não existir
+    
+    for file_name in os.listdir(input_folder):
+        if file_name.endswith(('.tif', '.geotiff')):  # Processa apenas arquivos .tif ou .geotiff
+            input_path = os.path.join(input_folder, file_name)
+            output_path = os.path.join(output_folder, file_name)
+
+            with rasterio.open(input_path) as src:
+                # Copiar os dados originais para o novo arquivo com compressão LZW
+                profile = src.profile
+                profile.update(compress=Compression.lzw)
+
+                with rasterio.open(output_path, 'w', **profile) as dst:
+                    for i in range(1, src.count + 1):
+                        dst.write(src.read(i), i)
+
+            print(f"Arquivo compactado: {file_name} -> {output_path}")
+
+# Caminho para a pasta de entrada e saída
+input_folder = "X:/Sigmagis/Projetos/COCAL/NDVI/2023/NOV/Imagens/NDVI/RES"  # Substitua pelo caminho da pasta de entrada
+output_folder = "X:/Sigmagis/Projetos/COCAL/NDVI/2023/NOV/Imagens/NDVI/RES/res_corrigido"  # Substitua pelo caminho da pasta de saída
+
+# Compactar os rasters
+compactar_rasters(input_folder, output_folder)
+
+print("Compactação concluída!")
