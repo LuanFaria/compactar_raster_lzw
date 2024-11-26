@@ -30,8 +30,8 @@ def compactar_rasters(input_folder, output_folder):
             print(f"Arquivo compactado: {file_name} -> {output_path}")
 
 # Caminho para a pasta de entrada e saída
-input_folder = "X:/Sigmagis/Projetos/COCAL/NDVI/2023/NOV/Imagens/NDVI/RES"  # Substitua pelo caminho da pasta de entrada
-output_folder = "X:/Sigmagis/Projetos/COCAL/NDVI/2023/NOV/Imagens/NDVI/RES/res_corrigido"  # Substitua pelo caminho da pasta de saída
+input_folder = "caminho entrada"  # Substitua pelo caminho da pasta de entrada
+output_folder = "caminho saida"  # Substitua pelo caminho da pasta de saída
 
 # Compactar os rasters
 compactar_rasters(input_folder, output_folder)
